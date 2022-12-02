@@ -1,6 +1,6 @@
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import HttpResponse
-from models import Alert, TransactionNotified
+from .models import Alert, TransactionNotified
 import json
 
 # Create your views here.
