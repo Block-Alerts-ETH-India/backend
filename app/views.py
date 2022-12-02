@@ -1,6 +1,6 @@
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import HttpResponse
-from models import Alert
+from models import Alert, TransactionNotified
 import json
 
 # Create your views here.
@@ -12,6 +12,13 @@ def alert(request):
         data = json.loads(request.body)
         Alert.objects.create(name=data["alertName"], address=data["alertAddress"], slack_webhook=data["alertSlackWebhook"])
         HttpResponse(json.dumps({"status": "ok"}), content_type="text/json")
+
+@csrf_exempt
+def transaction_notified(request):
+    if request.method == 'POST':
+        txn = json.loads(request.body)['txn']
+        TransactionNotified.objects.create(txn=txn)
+        return HttpResponse(json.dumps({"status": "ok"}), content_type="text/json")
 
 @csrf_exempt
 def login(request):
