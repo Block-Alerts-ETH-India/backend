@@ -7,7 +7,14 @@ import json
 @csrf_exempt
 def alert(request):
     if request.method == 'GET':
-        pass
+        data = []
+        for i in Alert.objects.all():
+            data.append({
+                "alertName": i.name,
+                "alertAddress": i.address,
+                "slackWebhook": i.slack_webhook
+            })
+        return HttpResponse(json.dumps({"status": "ok", "data": data}), content_type="text/json")
     if request.method == 'POST':
         data = json.loads(request.body)
         Alert.objects.create(name=data["alertName"], address=data["alertAddress"], slack_webhook=data["alertSlackWebhook"])

@@ -75,13 +75,13 @@ def update_transaction_notified(txn):
     data = json.dumps({
         "txn": txn
     })
-    requests.post("http://127.0.0.1:8000/txn_notified", data=data, headers=headers)
+    requests.post("http://127.0.0.1:8080/txn_notified", data=data, headers=headers)
 
 def check_txn_exists(txn):
     headers = {
         'Content-Type': 'application/json'
     }
-    r = requests.get("http://127.0.0.1:8000/txn_notified?txn=" + txn)
+    r = requests.get("http://127.0.0.1:8080/txn_notified?txn=" + txn)
     return r.json()
 
 ETHERSCAN_URL = "https://api-goerli.etherscan.io/api"
@@ -105,7 +105,7 @@ headers = {
 
 def job():
 
-    alerts = requests.get("http://127.0.0.1:8000/alert")
+    alerts = requests.get("http://127.0.0.1:8080/alert")
 
     for d in alerts.json()['data']:
 
