@@ -15,6 +15,15 @@ def alert(request):
 
 @csrf_exempt
 def transaction_notified(request):
+    if request.method == 'GET':
+        txn = request.GET['txn']
+        try:
+            if TransactionNotified.objects.filter(txn=txn).exists():
+                return HttpResponse(json.dumps({"status": "ok", "exists": True}), content_type="text/json")
+            else:
+                return HttpResponse(json.dumps({"status": "ok", "exists": False}), content_type="text/json")
+        except TransactionNotified.DoesNotExist:
+            return HttpResponse(json.dumps({"status": "ok", "exists": False}), content_type="text/json")
     if request.method == 'POST':
         txn = json.loads(request.body)['txn']
         TransactionNotified.objects.create(txn=txn)
