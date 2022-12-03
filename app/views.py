@@ -11,7 +11,7 @@ def alert(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         Alert.objects.create(name=data["alertName"], address=data["alertAddress"], slack_webhook=data["alertSlackWebhook"])
-        HttpResponse(json.dumps({"status": "ok"}), content_type="text/json")
+        return HttpResponse(json.dumps({"status": "ok"}), content_type="text/json")
 
 @csrf_exempt
 def transaction_notified(request):
